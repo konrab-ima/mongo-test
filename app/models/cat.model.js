@@ -19,8 +19,7 @@ const CatSchema = mongoose.Schema({
         required: true,
         min: 2,
         max: 8
-    },
-    tags: [String]
+    }
 }, {
     timestamps: true
 });

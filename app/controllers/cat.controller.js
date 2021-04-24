@@ -18,7 +18,7 @@ exports.create = (req, res) => {
 
 // Retrieve and return all cats from the database.
 exports.findAll = (req, res) => {
-    Cat.find()
+    Cat.find({ description: { $regex: req.query.tag || null } })
         .sort('-updatedAt')
         .then(cats => {
             res.send(cats);
