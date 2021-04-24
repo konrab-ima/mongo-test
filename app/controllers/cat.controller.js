@@ -115,7 +115,7 @@ exports.play = (req, res, next) => {
         res.status(500).send({message:`${req.cat.name} needs to eat`});
         throw new Error('Could not update Cat');
     }
-    req.body.weight = req.cat.weight - weightLoss;
+    req.body.weight = Math.round(req.cat.weight*10)/10 - Math.round(weightLoss*10)/10;
     next();
 }
 
