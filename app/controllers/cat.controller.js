@@ -2,19 +2,8 @@ const Cat = require('../models/cat.model.js');
 
 // Create and Save a new Cat
 exports.create = (req, res) => {
-    // Validate request
-    if(!req.body.name || !req.body.color) {
-        return res.status(400).send({
-            message: "Cat needs: name, color"
-        });
-    }
-
     // Create a Cat
-    const cat = new Cat({
-        name: req.body.name,
-        owner: req.body.owner || "Michi",
-        color: req.body.color
-    });
+    const cat = new Cat(req.body);
 
     // Save Cat in the database
     cat.save()

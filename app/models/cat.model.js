@@ -1,9 +1,25 @@
 const mongoose = require('mongoose');
 
 const CatSchema = mongoose.Schema({
-    name: String,
-    owner: String,
-    color: String
+    name: {
+        type: String,
+        required: true,
+    },
+    owner: {
+        type: String,
+        required: true,
+        enum: ['Birgit', 'Cynthia', 'Daniel']
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    weight: {
+        type: Number,
+        required: true,
+        min: 2,
+        max: 8
+    },
 }, {
     timestamps: true
 });
