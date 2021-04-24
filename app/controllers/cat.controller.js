@@ -19,6 +19,7 @@ exports.create = (req, res) => {
 // Retrieve and return all cats from the database.
 exports.findAll = (req, res) => {
     Cat.find()
+        .sort('-createdAt')
         .then(cats => {
             res.send(cats);
         }).catch(err => {
