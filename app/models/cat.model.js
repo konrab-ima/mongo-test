@@ -19,9 +19,19 @@ const CatSchema = mongoose.Schema({
         required: true,
         min: 2,
         max: 8
+    },
+    tags: {
+        type: Array,
+        get: extractTags
     }
 }, {
     timestamps: true
 });
+
+function extractTags() {
+    let regexp = new RegExp('#[A-Za-z0-9]*', 'g');
+    const hashtags = this.description.match(regexp) || [];
+    return hashtags.map(ht => ht.substring(1));
+}
 
 module.exports = mongoose.model('cat', CatSchema);

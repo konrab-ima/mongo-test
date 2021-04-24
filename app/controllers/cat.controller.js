@@ -17,30 +17,35 @@ exports.create = (req, res) => {
 };
 
 // Retrieve and return all cats from the database.
-exports.findAll = (req, res) => {
-    Cat.find({ description: { $regex: req.query.tag || '' } })
-        .sort('-updatedAt')
-        .then(cats => {
-            res.send(cats);
-        }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving cats."
-        });
-    });
+exports.getAllTags = () => {
+  // TODO
 };
+
+// Retrieve and return all cats from the database.
+exports.findAll = (req, res) => {
+    Cat.find({description: {$regex: req.query.tag || ''}})
+        .sort('-updatedAt')
+        .then(cats => res.send(cats))
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving cats."
+            });
+        });
+};
+
 
 // Find a single cat with a catId
 exports.findOne = (req, res) => {
     Cat.findById(req.params.catId)
         .then(cat => {
-            if(!cat) {
+            if (!cat) {
                 return res.status(404).send({
                     message: "Cat not found with id " + req.params.catId
                 });
             }
             res.send(cat);
         }).catch(err => {
-        if(err.kind === 'ObjectId') {
+        if (err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "cat not found with id " + req.params.catId
             });
@@ -56,14 +61,14 @@ exports.update = (req, res) => {
     // Find cat and update it with the request body
     Cat.findByIdAndUpdate(req.params.catId, req.body, {new: true})
         .then(Cat => {
-            if(!Cat) {
+            if (!Cat) {
                 return res.status(404).send({
                     message: "Cat not found with id " + req.params.catId
                 });
             }
             res.send(Cat);
         }).catch(err => {
-        if(err.kind === 'ObjectId') {
+        if (err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "Cat not found with id " + req.params.catId
             });
@@ -78,14 +83,14 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     Cat.findByIdAndRemove(req.params.catId)
         .then(Cat => {
-            if(!Cat) {
+            if (!Cat) {
                 return res.status(404).send({
                     message: "Cat not found with id " + req.params.catId
                 });
             }
             res.send({message: "Cat deleted successfully!"});
         }).catch(err => {
-        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+        if (err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
                 message: "Cat not found with id " + req.params.catId
             });
