@@ -111,22 +111,12 @@ exports.delete = (req, res) => {
 
 exports.play = (req, res, next) => {
     const weightLoss = - (Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100);
-    // if(req.cat.weight - weightLoss < 2) {
-    //     res.status(500).send({message:`${req.cat.name} needs to eat`});
-    //     throw new Error('Could not update Cat');
-    // }
-    // req.body.weight = Math.round((req.cat.weight-weightLoss)*100)/100;
     weightChange(req, res, weightLoss);
     next();
 }
 
 exports.feed = (req, res, next) => {
     const weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
-    // if(req.cat.weight + weightGain > 8) {
-    //     res.status(500).send({message:`${req.cat.name} needs to lose weight`});
-    //     throw new Error('Could not update Cat');
-    // }
-    // req.body.weight = Math.round((req.cat.weight+weightGain)*100)/100;
     weightChange(req, res, weightGain);
     next();
 }
