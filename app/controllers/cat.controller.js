@@ -141,13 +141,13 @@ exports.load = (req, res, next, id) =>
 
 
 function weightChange(req, res, weight) {
-            if(weight > 0 && req.cat.weight + weight > 8 ) {
-                res.status(500).send({message:`${req.cat.name} needs to lose weight`});
-                throw new Error('Could not update Cat');
-            }
-            if (weight < 0 && req.cat.weight - weight < 2) {
-                res.status(500).send({message:`${req.cat.name} needs to eat`});
-                throw new Error('Could not update Cat');
-            }
+    switch (weight) {
+        case weight >0 && req.cat.weight + weight > 8:
+            res.status(500).send({message:`${req.cat.name} needs to lose weight`});
+            throw new Error('Could not update Cat');
+        case weight < 0 && req.cat.weight - weight < 2:
+            res.status(500).send({message:`${req.cat.name} needs to eat`});
+            throw new Error('Could not update Cat');
+    }
         req.body.weight = Math.round((req.cat.weight+weight)*100)/100;
 }
