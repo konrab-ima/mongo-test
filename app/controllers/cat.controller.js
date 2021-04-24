@@ -1,5 +1,5 @@
 const Cat = require('../models/cat.model.js');
-import * as _ from 'lodash';
+const _ = require('lodash');
 
 // Create and Save a new Cat
 exports.create = (req, res) => {
