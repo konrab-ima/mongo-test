@@ -119,6 +119,16 @@ exports.play = (req, res, next) => {
     next();
 }
 
+exports.feed = (req, res, next) => {
+    const weightGain = 0.1;
+    if(req.cat.weight - weightGain < 8) {
+        res.status(500).send({message:`${req.cat.name} needs to lose weight`});
+        throw new Error('Could not update Cat');
+    }
+    req.body.weight = Math.round(req.cat.weight*10)/10 + Math.round(weightGain*10)/10;
+    next();
+}
+
 exports.load = (req, res, next, id) =>
     Cat.findById(id)
         .then(m => {
