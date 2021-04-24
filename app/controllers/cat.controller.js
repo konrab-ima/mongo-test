@@ -16,9 +16,9 @@ exports.create = (req, res) => {
 };
 
 // Retrieve and return all cats from the database.
-exports.getAllTags = () => {
+exports.getAllTags = (req, res) => {
     Cat.find()
-        // .select('tags')
+        .select('tags')
         // .then(cats => cats.map(c => c.tags))
     //     .then(tags => _.uniq(_.flatten(tags)))
         .then(uniqueTags => res.send(uniqueTags))
