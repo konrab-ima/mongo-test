@@ -20,6 +20,7 @@ const CatSchema = mongoose.Schema({
         min: 2,
         max: 8
     },
+    tags: [String]
 }, {
     timestamps: true
 });
