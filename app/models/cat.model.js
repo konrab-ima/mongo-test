@@ -12,7 +12,7 @@ const CatSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
+        maxLength: 100
     },
     weight: {
         type: Number,
