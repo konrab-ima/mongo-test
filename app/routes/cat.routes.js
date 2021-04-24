@@ -21,5 +21,7 @@ module.exports = (app) => {
 
     app.put('/cat/:catId/play', cat.play, cat.update)
 
+    app.put('/cat/:catId/feed', cat.feed, cat.update)
+
     app.param('catId', cat.load)
 }
