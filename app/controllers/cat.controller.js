@@ -110,7 +110,7 @@ exports.delete = (req, res) => {
 };
 
 exports.play = (req, res, next) => {
-    const weightLoss = 0.1;
+    const weightLoss = Math.round(((Math.floor(Math.random() * 20)/10)+0.1)*10)/10;
     if(req.cat.weight - weightLoss < 2) {
         res.status(500).send({message:`${req.cat.name} needs to eat`});
         throw new Error('Could not update Cat');
@@ -120,7 +120,7 @@ exports.play = (req, res, next) => {
 }
 
 exports.feed = (req, res, next) => {
-    const weightGain = 0.1;
+    const weightGain = Math.round(((Math.floor(Math.random() * 20)/10)+0.1)*10)/10;
     if(req.cat.weight + weightGain > 8) {
         res.status(500).send({message:`${req.cat.name} needs to lose weight`});
         throw new Error('Could not update Cat');
