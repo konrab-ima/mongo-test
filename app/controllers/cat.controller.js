@@ -20,7 +20,7 @@ exports.create = (req, res) => {
 exports.getAllTags = () => {
     Cat.find()
         .select('tags')
-        .then(cats => cats.map(c => tags))
+        .then(cats => cats.map(c => c.tags))
         .then(tags => _.uniq(_.flatten(tags)))
         .then(uniqueTags => res.send(uniqueTags))
         .catch(err => {
