@@ -115,7 +115,7 @@ exports.play = (req, res, next) => {
         res.status(500).send({message:`${req.cat.name} needs to eat`});
         throw new Error('Could not update Cat');
     }
-    req.body.weight = Math.round(req.cat.weight*10)/10 - Math.round(weightLoss*10)/10;
+    req.body.weight = Math.round((req.cat.weight-weightLoss)*10/10);
     next();
 }
 
@@ -125,7 +125,7 @@ exports.feed = (req, res, next) => {
         res.status(500).send({message:`${req.cat.name} needs to lose weight`});
         throw new Error('Could not update Cat');
     }
-    req.body.weight = Math.round(req.cat.weight*10)/10 + Math.round(weightGain*10)/10;
+    req.body.weight = Math.round((req.cat.weight+weightGain)*10/10);
     next();
 }
 
