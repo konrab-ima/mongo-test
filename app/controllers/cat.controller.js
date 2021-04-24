@@ -121,7 +121,7 @@ exports.play = (req, res, next) => {
 
 exports.feed = (req, res, next) => {
     const weightGain = 0.1;
-    if(req.cat.weight - weightGain < 8) {
+    if(req.cat.weight - weightGain > 8) {
         res.status(500).send({message:`${req.cat.name} needs to lose weight`});
         throw new Error('Could not update Cat');
     }
