@@ -112,7 +112,7 @@ exports.delete = (req, res) => {
 exports.play = (req, res, next) => {
     const weightLoss = 0.1;
     if(req.cat.weight - weightLoss < 2) {
-        throw new Error(`${req.cat.name} needs to eat`);
+        res.error(`${req.cat.name} needs to eat`);
     }
     req.body.weight = req.cat.weight - weightLoss;
     next();
