@@ -18,4 +18,8 @@ module.exports = (app) => {
 
     // Delete a Cat with catId
     app.delete('/cat/:catId', cat.delete);
+
+    app.put('/cat/:catId/play', cat.play, cat.update)
+
+    app.param('catId', cat.load)
 }

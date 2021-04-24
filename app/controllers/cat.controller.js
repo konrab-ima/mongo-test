@@ -100,3 +100,20 @@ exports.delete = (req, res) => {
         });
     });
 };
+
+exports.play = (req, res, next) => {
+    const weightLoss = 0.1;
+    if(req.cat.weight - weightLoss < 2) {
+        throw new Error(`${req.cat.name} needs to eat`);
+    }
+    req.body.weight = req.cat.weight - weightLoss;
+    next();
+}
+
+exports.load = (req, res, next, id) =>
+    Cat.findById(id)
+        .then(m => {
+            if (m == null) {throw new Error('Element not found')}
+            req.cat = m})
+        .then(() => next())
+        .catch(err => res.status(500).json({message: `Could not load this Cat (${err})`}));
