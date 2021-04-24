@@ -110,22 +110,24 @@ exports.delete = (req, res) => {
 };
 
 exports.play = (req, res, next) => {
-    const weightLoss = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
-    if(req.cat.weight - weightLoss < 2) {
-        res.status(500).send({message:`${req.cat.name} needs to eat`});
-        throw new Error('Could not update Cat');
-    }
-    req.body.weight = Math.round((req.cat.weight-weightLoss)*100)/100;
+    const weightLoss = - (Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100);
+    // if(req.cat.weight - weightLoss < 2) {
+    //     res.status(500).send({message:`${req.cat.name} needs to eat`});
+    //     throw new Error('Could not update Cat');
+    // }
+    // req.body.weight = Math.round((req.cat.weight-weightLoss)*100)/100;
+    weightChange(req, res, weightLoss);
     next();
 }
 
 exports.feed = (req, res, next) => {
     const weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
-    if(req.cat.weight + weightGain > 8) {
-        res.status(500).send({message:`${req.cat.name} needs to lose weight`});
-        throw new Error('Could not update Cat');
-    }
-    req.body.weight = Math.round((req.cat.weight+weightGain)*100)/100;
+    // if(req.cat.weight + weightGain > 8) {
+    //     res.status(500).send({message:`${req.cat.name} needs to lose weight`});
+    //     throw new Error('Could not update Cat');
+    // }
+    // req.body.weight = Math.round((req.cat.weight+weightGain)*100)/100;
+    weightChange(req, res, weightGain);
     next();
 }
 
@@ -136,3 +138,17 @@ exports.load = (req, res, next, id) =>
             req.cat = m})
         .then(() => next())
         .catch(err => res.status(500).json({message: `Could not load this Cat (${err})`}));
+
+
+function weightChange(req, res, weight) {
+        if(req.cat.weight + weight > 8 || req.cat.weight - weight < 2) {
+            if(weight > 0) {
+                res.status(500).send({message:`${req.cat.name} needs to lose weight`});
+            }
+            if (weight < 0) {
+                res.status(500).send({message:`${req.cat.name} needs to eat`});
+            }
+            throw new Error('Could not update Cat');
+        }
+        req.body.weight = Math.round((req.cat.weight+weight)*100)/100;
+}
