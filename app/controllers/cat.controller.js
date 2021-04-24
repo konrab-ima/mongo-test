@@ -1,4 +1,5 @@
 const Cat = require('../models/cat.model.js');
+import * as _ from 'lodash';
 
 // Create and Save a new Cat
 exports.create = (req, res) => {
@@ -7,9 +8,8 @@ exports.create = (req, res) => {
 
     // Save Cat in the database
     cat.save()
-        .then(data => {
-            res.json(data);
-        }).catch(err => {
+        .then(data => res.json(data))
+        .catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the cat."
         });
@@ -18,7 +18,16 @@ exports.create = (req, res) => {
 
 // Retrieve and return all cats from the database.
 exports.getAllTags = () => {
-  // TODO
+    Cat.find()
+        .select('tags')
+        .then(cats => cats.map(c => tags))
+        .then(tags => _.uniq(_.flatten(tags)))
+        .then(uniqueTags => res.send(uniqueTags))
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving tags."
+            });
+        });
 };
 
 // Retrieve and return all cats from the database.
