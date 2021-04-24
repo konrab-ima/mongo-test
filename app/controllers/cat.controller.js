@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     // Save Cat in the database
     cat.save()
         .then(data => {
-            res.send(data);
+            res.json(data);
         }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the cat."
