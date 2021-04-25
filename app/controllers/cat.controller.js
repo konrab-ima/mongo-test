@@ -10,10 +10,10 @@ exports.create = (req, res) => {
     cat.save()
         .then(data => res.json(data))
         .catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the cat."
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the cat."
+            });
         });
-    });
 };
 
 // Retrieve and return all cats from the database.
@@ -110,24 +110,24 @@ exports.delete = (req, res) => {
 };
 
 exports.play = (req, res, next) => {
-    const weightLoss = - (Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100);
+    const weightLoss = -(Math.round(((Math.floor(Math.random() * 20) / 100) + 0.01) * 100) / 100);
     weightChange(req, res, weightLoss);
     next();
 }
 
 exports.feed = (req, res, next) => {
-    let weightGain;
-    let food = req.query.food;
-    switch (food) {
+    let gainFactor;
+    switch (req.query.food) {
         case 'grass':
-            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
+            gainFactor = 0.01;
             break;
         case 'fish':
-            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.04)*100)/100;
+            gainFactor = 0.04;
             break;
         default:
-            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.07)*100)/100;
+            gainFactor = 0.07;
     }
+    let weightGain = ath.round(((Math.floor(Math.random() * 20) / 100) + gainFactor) * 100) / 100;
     weightChange(req, res, weightGain);
     next();
 }
@@ -135,22 +135,25 @@ exports.feed = (req, res, next) => {
 exports.load = (req, res, next, id) =>
     Cat.findById(id)
         .then(m => {
-            if (m == null) {throw new Error('Element not found')}
-            req.cat = m})
+            if (m == null) {
+                throw new Error('Element not found')
+            }
+            req.cat = m
+        })
         .then(() => next())
         .catch(err => res.status(500).json({message: `Could not load this Cat (${err})`}));
 
 
 function weightChange(req, res, weight) {
-        if(req.cat.weight + weight > 8 || req.cat.weight + weight < 2) {
-            if(weight > 0) {
-                res.status(500).send({message:`${req.cat.name} needs to lose weight`});
-                throw new Error('Could not update Cat');
-            }
-            if (weight < 0) {
-                res.status(500).send({message:`${req.cat.name} needs to eat`});
-                throw new Error('Could not update Cat');
-            }
+    if (req.cat.weight + weight > 8 || req.cat.weight + weight < 2) {
+        if (weight > 0) {
+            res.status(500).send({message: `${req.cat.name} needs to lose weight`});
+            throw new Error('Could not update Cat');
         }
-        req.body.weight = Math.round((req.cat.weight+weight)*100)/100;
+        if (weight < 0) {
+            res.status(500).send({message: `${req.cat.name} needs to eat`});
+            throw new Error('Could not update Cat');
+        }
+    }
+    req.body.weight = Math.round((req.cat.weight + weight) * 100) / 100;
 }
