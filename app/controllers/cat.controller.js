@@ -127,7 +127,7 @@ exports.feed = (req, res, next) => {
         default:
             gainFactor = 0.07;
     }
-    let weightGain = ath.round(((Math.floor(Math.random() * 20) / 100) + gainFactor) * 100) / 100;
+    let weightGain = Math.round(((Math.floor(Math.random() * 20) / 100) + gainFactor) * 100) / 100;
     weightChange(req, res, weightGain);
     next();
 }
