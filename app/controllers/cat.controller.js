@@ -32,8 +32,13 @@ exports.getAllTags = (req, res) => {
 exports.getStatistics = (req, res) => {
     Cat.find()
         .then( cats => cats.reduce((a,b) => a+b.weight, 0) / cats.length)
-        .then( meanWeight => res.json([{"meanWeight": meanWeight}]
-        ));
+        .then( meanWeight => res.json([{meanWeight}]
+        ))
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving statistics."
+            });
+        });
 };
 
 
