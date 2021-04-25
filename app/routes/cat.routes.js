@@ -19,6 +19,8 @@ module.exports = (app) => {
     // Delete a Cat with catId
     app.delete('/cat/:catId', cat.delete);
 
+    app.get('/statistics', cat.getStatistics);
+
     app.put('/cat/:catId/play', cat.play, cat.update)
 
     app.put('/cat/:catId/feed', cat.feed, cat.update)
