@@ -32,7 +32,7 @@ exports.getAllTags = (req, res) => {
 // Retrieve and return all cats from the database.`
 exports.findAll = (req, res) => {
     Cat.find({description: {$regex: req.query.tag ? `#${req.query.tag}` : ''}})
-        .sort('-updatedAt')
+        .sort('-createdAt')
         .then(cats => res.send(cats))
         .catch(err => {
             res.status(500).send({
