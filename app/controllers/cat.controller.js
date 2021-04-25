@@ -18,10 +18,7 @@ exports.create = (req, res) => {
 
 // Retrieve and return all cats from the database.
 exports.getAllTags = (req, res) => {
-    Cat.find({}, 'tags description')
-        .then(cats => cats.map(c => c.tags))
-        .then(tags => _.uniq(_.flatten(tags)))
-        .then(uniqueTags => res.send(uniqueTags))
+    Cat.distinct('tags')
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while retrieving tags."
