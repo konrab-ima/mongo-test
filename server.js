@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-exports._ = require('lodash');
 
 // create express app
 const app = express();
