@@ -116,7 +116,18 @@ exports.play = (req, res, next) => {
 }
 
 exports.feed = (req, res, next) => {
-    const weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
+    let weightGain = 1;
+    let food = req.query.food;
+    switch (food) {
+        case 'gras':
+            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
+            break;
+        case 'fish':
+            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.04)*100)/100;
+            break;
+        default:
+            weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.07)*100)/100;
+    }
     weightChange(req, res, weightGain);
     next();
 }
