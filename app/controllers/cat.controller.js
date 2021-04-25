@@ -116,10 +116,10 @@ exports.play = (req, res, next) => {
 }
 
 exports.feed = (req, res, next) => {
-    let weightGain = 1;
+    let weightGain;
     let food = req.query.food;
     switch (food) {
-        case 'gras':
+        case 'grass':
             weightGain = Math.round(((Math.floor(Math.random() * 20)/100)+0.01)*100)/100;
             break;
         case 'fish':
