@@ -30,7 +30,7 @@ const CatSchema = mongoose.Schema({
 
 function extractTags() {
     let regexp = new RegExp('#[A-Za-z0-9]*', 'g');
-    if (!this.description) return;
+    if (!this.description) return [];
     const hashtags = this.description.match(regexp) || [];
     return hashtags.map(ht => ht.substring(1));
 }
