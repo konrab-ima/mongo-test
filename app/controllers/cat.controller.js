@@ -28,10 +28,10 @@ exports.getAllTags = (req, res) => {
             });
         });
 };
-
-// Retrieve and return all cats from the database.
+``
+// Retrieve and return all cats from the database.`
 exports.findAll = (req, res) => {
-    Cat.find({description: {$regex: req.query.tag || ''}})
+    Cat.find({description: {$regex: `#${req.query.tag}` || ''}})
         .sort('-updatedAt')
         .then(cats => res.send(cats))
         .catch(err => {
