@@ -28,7 +28,15 @@ exports.getAllTags = (req, res) => {
             });
         });
 };
-``
+
+exports.getStatistics = (req, res) => {
+    Cat.find()
+        .then( cats => cats.reduce((a,b) => a+b.weight, 0) / cats.length)
+        .then( meanWeight => res.json([{"meanWeight": meanWeight}]
+        ));
+};
+
+
 // Retrieve and return all cats from the database.`
 exports.findAll = (req, res) => {
     Cat.find({description: {$regex: req.query.tag ? `#${req.query.tag}` : ''}})
@@ -143,7 +151,6 @@ exports.load = (req, res, next, id) =>
         .then(() => next())
         .catch(err => res.status(500).json({message: `Could not load this Cat (${err})`}));
 
-
 function weightChange(req, res, weight) {
     if (req.cat.weight + weight > 8 || req.cat.weight + weight < 2) {
         if (weight > 0) {
@@ -157,3 +164,6 @@ function weightChange(req, res, weight) {
     }
     req.body.weight = Math.round((req.cat.weight + weight) * 100) / 100;
 }
+
+
+
