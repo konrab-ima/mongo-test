@@ -32,7 +32,7 @@ function extractTags() {
     let regexp = new RegExp('#[A-Za-z0-9]*', 'g');
     if (!this.description) return [];
     const hashtags = this.description.match(regexp) || [];
-    return hashtags.map(ht => ht.substring(1));
+    return _.uniq(hashtags.map(ht => ht.substring(1)));
 }
 
 module.exports = mongoose.model('cat', CatSchema);
