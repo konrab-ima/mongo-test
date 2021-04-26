@@ -16,10 +16,11 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve and return all cats from the database.
 exports.getAllTags = (req, res) => {
-    Cat.distinct('tags')
-        .then(tags => res.send(tags))
+    Cat.find({}, 'tags description')
+        .then(cats => cats.map(c => c.tags))
+        .then(tags => _.uniq(_.flatten(tags)))
+        .then(uniqueTags => res.send(uniqueTags))
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while retrieving tags."
@@ -29,8 +30,8 @@ exports.getAllTags = (req, res) => {
 
 exports.getStatistics = (req, res) => {
     Cat.find()
-        .then( cats => cats.reduce((a,b) => a+b.weight, 0) / cats.length)
-        .then( meanWeight => res.json([{meanWeight}]
+        .then(cats => cats.reduce((a, b) => a + b.weight, 0) / cats.length)
+        .then(meanWeight => res.json([{meanWeight}]
         ))
         .catch(err => {
             res.status(500).send({

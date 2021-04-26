@@ -26,8 +26,9 @@ const CatSchema = mongoose.Schema({
         get: extractTags
     }
 }, {
-    timestamps: true
-}).set('toJSON', { getters: true });
+    timestamps: true,
+    toJSON : {getters: true}
+});
 
 function extractTags() {
     let regexp = new RegExp('#[A-Za-z0-9]*', 'g');
