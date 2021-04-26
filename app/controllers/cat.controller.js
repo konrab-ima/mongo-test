@@ -17,10 +17,14 @@ exports.create = (req, res) => {
 };
 
 exports.getAllTags = (req, res) => {
-    Cat.find({}, 'tags description')
-        .then(cats => cats.map(c => c.tags))
-        .then(tags => _.uniq(_.flatten(tags)))
-        .then(uniqueTags => res.send(uniqueTags))
+    Cat.aggregate([
+        {$addFields: {tag: {$regexFindAll: {input: '$description', regex: '#[A-Za-z0-9]*'}}}},
+        {$project: {tag: 1}},
+        {$unwind: '$tag'},
+        {$group: {_id: null, tag: {$addToSet: '$tag.match'}}},
+        {$unwind: '$tag'},
+        {$sort: { tag: 1 }}
+    ]).then(data => res.send(data.map(d => d.tag.substring(1))))
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while retrieving tags."

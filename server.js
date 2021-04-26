@@ -8,7 +8,7 @@ const app = express();
 app.use(cors())
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 
 // parse application/json
 app.use(bodyParser.json())
@@ -21,7 +21,8 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
 }).then(() => {
     console.log("Successfully connected to the database");
 }).catch(err => {
